@@ -10,8 +10,7 @@ class PersonasController extends Controller
     //
     public function crear(Request $req){
 
-        $respuesta = ["status" => "msg"=> "" ];
-        
+        $respuesta = ["status" => 1,"msg"=> "" ];        
         $datos = $req ->getContent();
 
         //VALIDAR EL JSON hola pepe
@@ -21,10 +20,10 @@ class PersonasController extends Controller
         //VALIDAR LOS DATOS
 
         $persona = new Persona();
-
         $persona->nombre = $datos->nombre;
-        $persona->dni = $datos->dni;
-        $persona->telefono = $datos->telefono;
+        $persona->primer_apellido = $datos->primer_apellido;
+        $persona->segundo_apellido = $datos->segundo_apellido;
+        $persona->fecha_de_nacimiento = $datos->fecha_de_nacimiento;
         $persona->direccion = $datos->direccion;
 
         if(isset($datos->email))
@@ -35,8 +34,8 @@ class PersonasController extends Controller
             $persona->save();
             $respuesta['msg'] = "Persona guardada con id ".$persona->id;
         }catch(\Exception $e){
-            $respuesta['status'] = 0
-            $respuesta['msg'] = "Se ha producido un error: ".e->getMessage();
+            $respuesta['status'] = 0;
+            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
 
             
         }
@@ -50,8 +49,7 @@ class PersonasController extends Controller
 
     public function borrar($id){
 
-        $respuesta = ["status" => "msg"=> "" ];
-
+        $respuesta = ["status" => 1,"msg"=> "" ];
         $persona = Persona::find($id);
 
         if($persona){
@@ -59,8 +57,8 @@ class PersonasController extends Controller
                 $persona->delete();
                 $respuesta['msg'] = "Persona borrada ";
             }catch(\Exception $e){
-                $respuesta['status'] = 0
-                $respuesta['msg'] = "Se ha producido un error: ".e->getMessage();
+                $respuesta['status'] = 0;
+                $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
     
                 
             }
@@ -75,7 +73,7 @@ class PersonasController extends Controller
 
     public function editar(Request $req,$id){
 
-        $respuesta = ["status" => "msg"=> "" ];
+        $respuesta = ["status" => 1,"msg"=> "" ];
         
         $datos = $req ->getContent();
 
@@ -90,11 +88,11 @@ class PersonasController extends Controller
         if(isset($datos->nombre))
             $persona->nombre = $datos->nombre;
 
-        if(isset($datos->dni))
-            $persona->dni = $datos->dni;
+        if(isset($datos->primer_apellido))
+            $persona->primer_apellido = $datos->primer_apellido;
 
-        if(isset($datos->telefono))
-            $persona->telefono = $datos->telefono;
+        if(isset($datos->segundo_apellido))
+            $persona->segundo_apellido = $datos->segundo_apellido;
 
         if(isset($datos->direccion))
              $persona->direccion = $datos->direccion;
@@ -107,9 +105,8 @@ class PersonasController extends Controller
             $persona->save();
             $respuesta['msg'] = "Persona actualizada ";
         }catch(\Exception $e){
-            $respuesta['status'] = 0
-            $respuesta['msg'] = "Se ha producido un error: ".e->getMessage();
-
+            $respuesta['status'] = 0;
+            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
             
         }
 
@@ -117,5 +114,39 @@ class PersonasController extends Controller
     
         
 
+    }
+    public function listar(){
+
+
+        $respuesta = ["status" => 1,"msg"=> "" ];
+        try{
+            $personas = Persona::all();
+            $respuesta['datos'] = $personas;
+
+        }catch(\Exception $e){
+            $respuesta['status'] = 0;
+            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
+            
+        }
+
+        
+        return response() ->json($respuesta);
+    }
+    public function ver($id){
+
+        $respuesta = ["status" => 1,"msg"=> "" ];
+        try{
+            $persona = Persona::find($id);
+            $persona->makeVisible(['direccion','updated_at','created_at']);
+            $respuesta['datos'] = $persona;
+        }catch(\Exception $e){
+            $respuesta['status'] = 0;
+            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
+
+            
+        }
+
+       return response()->json($respuesta);
+    
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonasController;
+use App\Http\Controllers\DomicilioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,16 @@ use App\Http\Controllers\PersonasController;
 Route::prefix('personas')->group(function(){
 Route::put('/crear',[PersonasController::class,'crear']);
 
-Route::put('/borrar',[PersonasController::class,'borrar']);
-Route::put('/editar',[PersonasController::class,'editar']);
-Route::put('/listar',[PersonasController::class,'listar']);
-Route::put('/ver',[PersonasController::class,'ver']);
+Route::delete('/borrar/{id}',[PersonasController::class,'borrar']);
+Route::post('/editar/{id}',[PersonasController::class,'editar']);
+Route::get('/listar',[PersonasController::class,'listar']);
+Route::get('/ver/{id}',[PersonasController::class,'ver']);
 
 });
+
+Route::prefix('domicilio')->group(function(){
+    Route::put('/crear',[DomicilioController::class,'crear']);
+    Route::post('/editar/{id}',[DomicilioController::class,'editar']);
+    Route::get('/ver/{id}',[DomicilioController::class,'ver']);
+    
+    });//Tonto el que lo lea
