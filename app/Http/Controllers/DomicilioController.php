@@ -26,7 +26,7 @@ class DomicilioController extends Controller
         //Escribir en la base de datos
         try{
             $domicilio->save();
-            $respuesta['msg'] = "Persona guardada con id ".$domicilio->id;
+            $respuesta['msg'] = "Domicilio guardado con id ".$domicilio->id;
         }catch(\Exception $e){
             $respuesta['status'] = 0;
             $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
@@ -67,7 +67,7 @@ class DomicilioController extends Controller
         //Escribir en la base de datos
         try{
             $domicilio->save();
-            $respuesta['msg'] = "Domicilio actualizada ";
+            $respuesta['msg'] = "Domicilio actualizado ";
         }catch(\Exception $e){
             $respuesta['status'] = 0;
             $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
@@ -83,7 +83,7 @@ class DomicilioController extends Controller
 
         $respuesta = ["status" => 1,"msg"=> "" ];
         try{
-            $domicilio = Persona::find($id);
+            $domicilio = Domicilio::find($id);
             $respuesta['datos'] = $domicilio;
         }catch(\Exception $e){
             $respuesta['status'] = 0;

@@ -17,7 +17,7 @@ class CreateDomicilioTable extends Migration
             $table->id();
             $table->String('calle');
             $table->String('numero');
-            $table->Integer('codigo_postal');
+            $table->integer('codigo_postal');
             $table->timestamps();
         });
     }
